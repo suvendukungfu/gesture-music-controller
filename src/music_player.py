@@ -14,6 +14,9 @@ class MusicPlayer:
 
         self.index = 0
         self.paused = False
+        self.volume = 0.5
+
+        pygame.mixer.music.set_volume(self.volume)
 
         if not self.songs:
             print("❌ No music files found in local_music/")
@@ -22,17 +25,15 @@ class MusicPlayer:
 
     def play_pause(self):
         if not self.songs:
-            return  # safely do nothing
+            return
 
         if not pygame.mixer.music.get_busy():
             pygame.mixer.music.load(self.songs[self.index])
             pygame.mixer.music.play()
             self.paused = False
-
         elif self.paused:
             pygame.mixer.music.unpause()
             self.paused = False
-
         else:
             pygame.mixer.music.pause()
             self.paused = True
@@ -59,3 +60,11 @@ class MusicPlayer:
         pygame.mixer.music.load(self.songs[self.index])
         pygame.mixer.music.play()
         self.paused = False
+
+    def set_volume(self, volume):
+        volume = max(0.0, min(1.0, volume))
+        pygame.mixer.music.set_volume(volume)
+        self.volume = volume
+
+    def get_volume(self):
+        return self.volume

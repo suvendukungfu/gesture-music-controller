@@ -68,3 +68,8 @@ class MusicPlayer:
 
     def get_volume(self):
         return self.volume
+    def current_song(self):
+        if not self.songs:
+            return None
+        return self.songs[self.index]
+

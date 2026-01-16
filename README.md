@@ -209,9 +209,3 @@ This project is open-source and free to use for learning and experimentation.
 
 ---
 
-### ✅ Final Step (Commit README)
-
-```bash
-git add README.md
-git commit -m "Add final README with gesture table and demo section"
-```

@@ -1,0 +1,33 @@
+import pygame
+import os
+
+class MusicPlayer:
+    def __init__(self, music_dir="local_music"):
+        pygame.mixer.init()
+        self.songs = [
+            os.path.join(music_dir, f)
+            for f in os.listdir(music_dir)
+            if f.endswith((".mp3", ".wav", ".ogg"))
+        ]
+        self.index = 0
+        self.paused = False
+
+        if not self.songs:
+            print("❌ No music files found in local_music/")
+        else:
+            print(f"✅ Loaded {len(self.songs)} songs")
+
+    def play_pause(self):
+        if not self.songs:
+            return  # safely do nothing
+
+        if not pygame.mixer.music.get_busy():
+            pygame.mixer.music.load(self.songs[self.index])
+            pygame.mixer.music.play()
+            self.paused = False
+        elif self.paused:
+            pygame.mixer.music.unpause()
+            self.paused = False
+        else:
+            pygame.mixer.music.pause()
+            self.paused = True

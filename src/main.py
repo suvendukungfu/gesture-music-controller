@@ -1,93 +1,101 @@
 import cv2
-from collections import deque
+import time
 
 from src.hand_tracking import HandTracker
-from src.gesture_logic import (
-    is_fist,
-    is_open_palm,
-    detect_swipe,
-    is_two_fingers
-)
 from src.music_player import MusicPlayer
-from src.ui_overlay import draw_text, draw_volume_bar, draw_song_name
+from src.ui_overlay import (
+    draw_panel,
+    draw_title,
+    draw_song,
+    draw_gesture,
+    draw_volume,
+    draw_help
+)
+
+# -----------------------------
+# Configuration
+# -----------------------------
+CAMERA_INDEX = 0
+GESTURE_COOLDOWN = 1.0  # seconds
 
 
 def main():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(CAMERA_INDEX)
+    if not cap.isOpened():
+        print("❌ Cannot open camera")
+        return
 
     tracker = HandTracker()
     player = MusicPlayer()
+    player.load_songs("songs")
 
-    cooldown = 0
-    x_buffer = deque(maxlen=8)
-    current_gesture = ""
+    last_action_time = 0
+    gesture_label = "None"
+
+    print("🎵 Gesture Music Controller started")
+    print("Press ESC to exit")
 
     while True:
         ret, frame = cap.read()
         if not ret:
             break
 
+        frame = cv2.flip(frame, 1)
+
+        # -----------------------------
+        # Hand Tracking
+        # -----------------------------
         result = tracker.process(frame)
 
-        if result.multi_hand_landmarks:
-            hand = result.multi_hand_landmarks[0]
-            tracker.draw(frame, hand)
+        current_time = time.time()
+        can_act = (current_time - last_action_time) > GESTURE_COOLDOWN
 
-            landmarks = hand.landmark
-            index_tip = landmarks[8]
+        if result.multi_hand_landmarks and can_act:
+            gesture = tracker.detect_gesture(result)
 
-            x_buffer.append(index_tip.x)
+            if gesture == "PLAY_PAUSE":
+                player.play_pause()
+                gesture_label = "✊ Play / Pause"
+                last_action_time = current_time
 
-            if cooldown == 0:
+            elif gesture == "NEXT":
+                player.next_song()
+                gesture_label = "👉 Swipe Right (Next)"
+                last_action_time = current_time
 
-                if is_fist(landmarks):
-                    player.play_pause()
-                    current_gesture = "Play / Pause"
-                    cooldown = 20
-                    x_buffer.clear()
+            elif gesture == "PREVIOUS":
+                player.prev_song()
+                gesture_label = "👈 Swipe Left (Previous)"
+                last_action_time = current_time
 
-                elif is_open_palm(landmarks):
-                    player.stop()
-                    current_gesture = "Stop"
-                    cooldown = 20
-                    x_buffer.clear()
+            elif gesture == "VOLUME_UP":
+                player.change_volume(0.05)
+                gesture_label = "👍 Volume Up"
 
-                elif is_two_fingers(landmarks):
-                    volume = 1 - index_tip.y
-                    player.set_volume(volume)
-                    current_gesture = "Volume Control"
+            elif gesture == "VOLUME_DOWN":
+                player.change_volume(-0.05)
+                gesture_label = "👎 Volume Down"
 
-                else:
-                    swipe = detect_swipe(list(x_buffer))
-
-                    if swipe == "right":
-                        player.next_song()
-                        current_gesture = "Next Song"
-                        cooldown = 25
-                        x_buffer.clear()
-
-                    elif swipe == "left":
-                        player.previous_song()
-                        current_gesture = "Previous Song"
-                        cooldown = 25
-                        x_buffer.clear()
-
-        if cooldown > 0:
-            cooldown -= 1
-
-        # ---------- UI OVERLAY ----------
-        draw_text(frame, f"Gesture: {current_gesture}", (30, 30))
-        draw_volume_bar(frame, player.get_volume())
-        draw_song_name(frame, player.current_song())
-        # --------------------------------
+        # -----------------------------
+        # UI Overlay
+        # -----------------------------
+        draw_panel(frame)
+        draw_title(frame)
+        draw_song(frame, player.current_song(), player.playing)
+        draw_gesture(frame, gesture_label)
+        draw_volume(frame, player.get_volume())
+        draw_help(frame)
 
         cv2.imshow("Gesture Music Controller", frame)
 
+        # ESC to exit
         if cv2.waitKey(1) & 0xFF == 27:
             break
 
     cap.release()
     cv2.destroyAllWindows()
+    player.stop()
+    print("👋 Exited cleanly")
 
 
 if __name__ == "__main__":

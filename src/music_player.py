@@ -5,43 +5,39 @@ import os
 class MusicPlayer:
     def __init__(self, music_dir="local_music"):
         pygame.mixer.init()
-
-        self.songs = [
-            os.path.join(music_dir, f)
-            for f in os.listdir(music_dir)
-            if f.endswith((".mp3", ".wav", ".ogg"))
-        ]
-
+        self.music_dir = music_dir
+        self.songs = self.load_songs()
         self.index = 0
-        self.paused = False
         self.volume = 0.5
+        self.playing = False
 
         pygame.mixer.music.set_volume(self.volume)
 
-        if not self.songs:
-            print("❌ No music files found in local_music/")
-        else:
-            print(f"✅ Loaded {len(self.songs)} songs")
+    def load_songs(self):
+        if not os.path.exists(self.music_dir):
+            return []
+
+        return [
+            os.path.join(self.music_dir, f)
+            for f in os.listdir(self.music_dir)
+            if f.endswith((".mp3", ".wav", ".ogg"))
+        ]
 
     def play_pause(self):
         if not self.songs:
             return
 
-        if not pygame.mixer.music.get_busy():
+        if not self.playing:
             pygame.mixer.music.load(self.songs[self.index])
             pygame.mixer.music.play()
-            self.paused = False
-        elif self.paused:
-            pygame.mixer.music.unpause()
-            self.paused = False
+            self.playing = True
         else:
             pygame.mixer.music.pause()
-            self.paused = True
+            self.playing = False
 
     def stop(self):
-        if pygame.mixer.music.get_busy():
-            pygame.mixer.music.stop()
-            self.paused = False
+        pygame.mixer.music.stop()
+        self.playing = False
 
     def next_song(self):
         if not self.songs:
@@ -50,7 +46,7 @@ class MusicPlayer:
         self.index = (self.index + 1) % len(self.songs)
         pygame.mixer.music.load(self.songs[self.index])
         pygame.mixer.music.play()
-        self.paused = False
+        self.playing = True
 
     def previous_song(self):
         if not self.songs:
@@ -59,17 +55,16 @@ class MusicPlayer:
         self.index = (self.index - 1) % len(self.songs)
         pygame.mixer.music.load(self.songs[self.index])
         pygame.mixer.music.play()
-        self.paused = False
+        self.playing = True
 
     def set_volume(self, volume):
-        volume = max(0.0, min(1.0, volume))
-        pygame.mixer.music.set_volume(volume)
-        self.volume = volume
+        self.volume = max(0.0, min(1.0, volume))
+        pygame.mixer.music.set_volume(self.volume)
 
     def get_volume(self):
         return self.volume
+
     def current_song(self):
         if not self.songs:
             return None
         return self.songs[self.index]
-

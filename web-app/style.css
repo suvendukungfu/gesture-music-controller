@@ -1,0 +1,30 @@
+body {
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+video,
+canvas {
+    width: 640px;
+    height: 480px;
+    border-radius: 10px;
+}
+
+.info {
+    margin-top: 15px;
+}
+
+.volume {
+    width: 200px;
+    height: 20px;
+    border: 2px solid white;
+    margin: 10px auto;
+}
+
+#volume-fill {
+    height: 100%;
+    width: 50%;
+    background: lime;
+}

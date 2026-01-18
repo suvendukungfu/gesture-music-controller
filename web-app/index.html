@@ -2,14 +2,20 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Gesture Music Controller</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>Gesture Music Controller (Web)</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- MediaPipe -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
 </head>
 
 <body>
-
     <h1>🎵 Gesture Music Controller (Web)</h1>
+
+    <button id="startBtn">▶ Start Camera & Music</button>
 
     <video id="video" autoplay playsinline></video>
     <canvas id="canvas"></canvas>
@@ -17,17 +23,13 @@
     <div class="info">
         <p id="song">Song: --</p>
         <p id="gesture">Gesture: --</p>
-        <div class="volume">
-            <div id="volume-fill"></div>
+
+        <div class="volume-bar">
+            <div id="volume"></div>
         </div>
     </div>
 
     <audio id="audio"></audio>
-
-    <!-- MediaPipe -->
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
 
     <script src="script.js"></script>
 </body>

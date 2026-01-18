@@ -1,14 +1,19 @@
-# Virtual environment
+# Python
 venv/
-.env/
-
-# Python cache
 __pycache__/
 *.pyc
 
-# OS files
+# OS
 .DS_Store
 
-# IDE
-.vscode/
-.idea/
+# Build artifacts
+build/
+dist/
+*.spec
+
+# Desktop app leftovers
+run_app.py
+songs/
+
+# Node / misc
+node_modules/

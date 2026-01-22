@@ -10,7 +10,7 @@ It includes:
 
 ---
 
-# 🎵 Gesture-Controlled Music Player
+#  Gesture-Controlled Music Player
 
 Control your **local music playback using hand gestures** in real time — powered by **OpenCV**, **MediaPipe**, and **pygame**.
 
@@ -18,18 +18,18 @@ This project uses **computer vision–based hand tracking** to recognize gesture
 
 ---
 
-## 🚀 Features
+##  Features
 
-* 🎥 Real-time webcam hand tracking
-* ✋ Gesture-based music control
-* 🎵 Local music playback
-* 🎨 On-screen UI overlay
+*  Real-time webcam hand tracking
+*  Gesture-based music control
+   Local music playback
+*  On-screen UI overlay
 
   * Current gesture label
   * Volume bar & percentage
   * Current song name
-* 🧠 Gesture cooldown to prevent accidental triggers
-* 🧩 Modular, clean Python architecture
+*  Gesture cooldown to prevent accidental triggers
+*  Modular, clean Python architecture
 
 ---
 
@@ -45,9 +45,9 @@ This project uses **computer vision–based hand tracking** to recognize gesture
 
 ---
 
-## 🎬 Demo
+##  Demo
 
-> 📌 **Add a GIF or video here after recording**
+> **Add a GIF or video here after recording**
 
 ```md
 ![Gesture Music Player Demo](assets/demo.gif)
@@ -61,7 +61,7 @@ This project uses **computer vision–based hand tracking** to recognize gesture
 
 ---
 
-## 🧠 How It Works (High Level)
+##  How It Works (High Level)
 
 1. **OpenCV** captures webcam frames
 2. **MediaPipe Hands** detects 21 hand landmarks
@@ -72,7 +72,7 @@ This project uses **computer vision–based hand tracking** to recognize gesture
 
 ---
 
-## 🗂 Project Structure
+##  Project Structure
 
 ```
 gesture-music-controller/
@@ -96,23 +96,23 @@ gesture-music-controller/
 
 ---
 
-## ⚙️ Setup & Installation
+##  Setup & Installation
 
-### 1️⃣ Clone the Repository
+###  Clone the Repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/gesture-music-controller.git
 cd gesture-music-controller
 ```
 
-### 2️⃣ Create Virtual Environment
+###  Create Virtual Environment
 
 ```bash
 python3.11 -m venv venv
 source venv/bin/activate
 ```
 
-### 3️⃣ Install Dependencies
+###  Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -120,7 +120,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🎶 Add Music
+## Add Music
 
 1. Create / open the `local_music/` folder
 2. Add audio files:
@@ -139,7 +139,7 @@ local_music/
 
 ---
 
-## ▶️ Run the Application
+## Run the Application
 
 ```bash
 python -m src.main
@@ -149,7 +149,7 @@ python -m src.main
 
 ---
 
-## 🔐 macOS Camera Permission (Important)
+## macOS Camera Permission (Important)
 
 Go to:
 
@@ -166,7 +166,7 @@ Restart Terminal after enabling.
 
 ---
 
-## 🧪 Tips for Best Performance
+##  Tips for Best Performance
 
 * Keep your hand **clearly visible**
 * Use gestures **deliberately**, not too fast
@@ -175,7 +175,7 @@ Restart Terminal after enabling.
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 * **Python 3.11**
 * **OpenCV**
@@ -185,17 +185,17 @@ Restart Terminal after enabling.
 
 ---
 
-## 🌱 Future Improvements
+##  Future Improvements
 
-* 🎚 System volume control (OS-level)
-* 🧠 ML-based gesture classification
-* 🎧 Spotify API integration
-* 🖥 Desktop app (Tkinter / PyQt)
-* 📱 Mobile camera support
+*  System volume control (OS-level)
+*  ML-based gesture classification
+*  Spotify API integration
+*  Desktop app (Tkinter / PyQt)
+*  Mobile camera support
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 **Suvendu Kumar Sahoo**
 
@@ -203,7 +203,7 @@ Built as a hands-on **Computer Vision + Python project** to explore real-time ge
 
 ---
 
-## 📜 License
+##  License
 
 This project is open-source and free to use for learning and experimentation.
 
